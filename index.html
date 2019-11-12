@@ -43,12 +43,20 @@
       EXTRA)
       Visualize on a Google Map plugin all the users (using lat & lng)
     -->
-    <div class="container" id="mainDiv">
 
-    </div>
 </head>
 
 <body>
+    <div class="container" id="mainDiv">
+        <input type="text" placeholder="Enter a keyword">
+        <button type="button" onclick="dropDown()" class="btn btn-success">Go</button>
+        <select id="selectTag">
+            <option class="selectedOptions" value="name">Name</option>
+            <option class="selectedOptions" value="username">Username</option>
+            <option class="selectedOptions" value="email">Email</option>
+        </select>
+
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -63,57 +71,49 @@
         crossorigin="anonymous"></script>
 
     <script>
-       /* window.onload = async () => {
+        let users = [];
+        window.onload = async () => {
             try {
                 let response = await fetch("https://jsonplaceholder.typicode.com/users")
-                let users = await response.json()
-                console.log(users);
-                let usersData = users.data 
+                users = await response.json()
+                console.log(users)
+
                 const div = document.querySelector("#mainDiv")
-                div.innerHTML = usersData.map(user => createUsers(usersData)).join("");                    ;
-                    
+                div.innerHTML += users.map(user => createUsers(user)).join("")
             }
-            catch (error) {
-                console.log(error)
-            }
+            catch (err) { console.log(err) }
         }
+
         function createUsers(users) {
-            console.log(users)
-            return
-            `<div class="users">
-            <span>
-                ${usersData.name}
-            </span>
-            <span>
-                ${usersData.username}
-            </span>
-            <span>
-                ${usersData.email}
-            </span>
-        </div>`
-        }*/
 
-        window.onload = async() => {
-        try {
-          let response = await fetch("https://jsonplaceholder.typicode.com/users")
-          let users = await response.json() 
-          console.log(users)
-
-          const div = document.querySelector("#mainDiv")
-          div.innerHTML = users.map(user => createUsers(user)).join("")
-        }
-        catch(err) { console.log(err) }
-      }
-
-      function createUsers(users){
-        return `
-              <div>
+            return `
+              <div class= "usersDiv">
                 <span>${users.name}</span>
                 <span>${users.username}</span>
                 <span>${users.email}</span>
               </div>
         `
-      }
+        }
+
+        function dropDown() {
+            console.log(users);
+            let input = document.querySelector("input").value
+            var options = document.getElementById("selectTag");
+            var result = options[options.selectedIndex].value;
+            let usersDiv = document.querySelector(".usersDiv");
+            usersDiv.innerHTML = "";
+            const newUsers = users.filter(user => user[result].includes(input));
+            console.log(newUsers);
+            
+
+            console.log(result)
+
+        
+
+        }
+
+
+
 
 
 
